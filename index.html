@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Print PDF from URL Parameter</title>
-    <script type="text/javascript" src="qz-tray.js"></script>
+    <script type="text/javascript" src="print-min.js"></script>
 </head>
 <body>
     <script>
@@ -14,37 +14,10 @@
             return queryParams.get('pdf');
         }
 
-        function printPDF(pdfName) {
-            // Build the path to the PDF on the user's desktop
-            // This is a symbolic example; you'll need to adjust based on your actual requirements
-            const pdfPath = 'file:///C:/Users/Owner/Desktop/' + pdfName;
-
-            qz.websocket.connect().then(() => {
-                return qz.printers.find('pos'); // Find a printer
-            }).then((printer) => {
-                var config = qz.configs.create(printer); // Create printer config
-                var data = [{ 
-                    'type': 'pdf', 
-                    'data': pdfPath // Use the constructed file path
-                }];
-                
-                // Print the PDF
-                return qz.print(config, data);
-            }).then(() => {
-                console.log('Print job sent successfully');
-            }).catch((err) => {
-                console.error('Error printing:', err);
-            }).finally(() => {
-                qz.websocket.disconnect();
-            });
-        }
-
-        // Extract the PDF name from the URL parameter
         const pdfName = getPDFNameFromURL();
 
-        // Ensure the PDF name is not null or undefined
         if(pdfName) {
-            printPDF(pdfName);
+            printJS(`docs/${pdfName}.pdf`)
         } else {
             console.error('No PDF specified in the URL parameters.');
         }
