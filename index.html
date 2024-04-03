@@ -17,7 +17,7 @@
         const pdfName = getPDFNameFromURL();
 
         if(pdfName) {
-            printJS(`docs/${pdfName}-min.pdf`)
+            printJS(`docs/${pdfName}`)
         } else {
             console.error('No PDF specified in the URL parameters.');
         }
